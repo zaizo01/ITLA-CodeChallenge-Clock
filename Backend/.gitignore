@@ -1,0 +1,42 @@
+# Archivos y carpetas generados por Visual Studio
+.vs/
+bin/
+obj/
+
+# Archivos de respaldo
+*.bak
+*.bak2
+*.bak3
+
+# Archivos de compilación
+*.dll
+*.exe
+*.pdb
+*.suo
+
+# Archivos de publicación
+*.publishsettings
+*.pubxml
+
+# Carpeta de paquetes NuGet
+
+
+# Archivos de caché y configuración de usuario
+*.user
+*.suo
+*.cache
+
+# Archivos de registro
+*.log
+
+# Archivos de análisis de código
+*.opencover.xml
+*.coverage
+
+# Archivos de migración de base de datos
+*.mdf
+*.ldf
+
+# Archivos de caché de Visual Studio
+.vscode/
+.vs/
