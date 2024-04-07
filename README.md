@@ -10,3 +10,16 @@ El proyecto ITLA CodeQuest Timer hace uso de las siguientes tecnologías:
 - **Frontend:** HTML, CSS, JavaScript, React JS
 - **Backend:** .NET Core (API)
 - **Base de Datos:** SQL Server
+
+- Para levantar el backend, debe de digirise hacia package manager console.
+  ![image](https://github.com/zaizo01/ITLA-CodeChallenge-Clock/assets/113854340/fc990635-a94a-4a4e-96b9-e65a98ad6da5)
+
+  
+1- Seleccionar el proyecto de persistence y correr el siguiente comando.
+  update-database -context ApplicationContext.
+
+
+
+  
+2- Luego hacer lo mismo con el proyecto de identity.
+  update-database -context IdentityContext.
