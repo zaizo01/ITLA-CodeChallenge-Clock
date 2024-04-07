@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
 function VistaPreguntas() {
-    const [respuestaSeleccionada, setRespuestaSeleccionada] = useState(null);
+    const [respuestaSeleccionada, setRespuestaSeleccionada] = useState("");
 
-    const handleRespuestaSeleccionada = (e: { target: { value: React.SetStateAction<null>; }; }) => {
+    const handleRespuestaSeleccionada = (e:React.ChangeEvent<HTMLInputElement>) => {
         setRespuestaSeleccionada(e.target.value);
     };
 
