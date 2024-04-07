@@ -54,3 +54,12 @@ project.nuget.cache
 
 # También es común ignorar el directorio bin/
 [bin/]
+
+# Ignorar el directorio obj específico
+**/[Oo]bj/
+
+# Ignorar archivos AssemblyInfo específicos
+**/AssemblyInfo.cs
+
+# Ignorar archivos de información de entrada de Assembly
+**/AssemblyInfoInputs.cache
