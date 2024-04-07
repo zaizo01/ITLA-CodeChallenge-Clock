@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ItlaCodeChallenge")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+03455737281d7353f163de97762b44b7642115d5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fa15a0b909b00e51189027cc955f9a8a13515212")]
 [assembly: System.Reflection.AssemblyProductAttribute("ItlaCodeChallenge")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ItlaCodeChallenge")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
