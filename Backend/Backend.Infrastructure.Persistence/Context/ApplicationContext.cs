@@ -12,10 +12,10 @@ namespace Backend.Infraestructure.Persistence.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Questions>().ToTable("Questions");
-            modelBuilder.Entity<Questions>().HasKey(x=> x.Id);
-            modelBuilder.Entity<Questions>().Property(x => x.Description).HasMaxLength(100);
-            modelBuilder.Entity<Questions>().Property(x => x.Level).HasMaxLength(10);
+            modelBuilder.Entity<Question>().ToTable("Questions");
+            modelBuilder.Entity<Question>().HasKey(x=> x.Id);
+            modelBuilder.Entity<Question>().Property(x => x.Description).HasMaxLength(100);
+            modelBuilder.Entity<Question>().Property(x => x.Level).HasMaxLength(10);
 
 
             modelBuilder.Entity<ChallengeResult>().ToTable("ChallengeResults");
@@ -25,7 +25,7 @@ namespace Backend.Infraestructure.Persistence.Context
 
         }
 
-        public DbSet<Questions> Questions { get; set; }
+        public DbSet<Question> Questions { get; set; }
         public DbSet<ChallengeResult> ChallengeResults { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Backend.Infraestructure.Persistence.Context;
+﻿using Backend.Core.Application.Interfaces;
+using Backend.Infraestructure.Persistence.Context;
+using Backend.Infraestructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +15,9 @@ namespace Backend.Infraestructure.Persistence
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            services.AddTransient<IQuestionRepository, QuestionRepository>();
         }
     }
 }

@@ -7,6 +7,6 @@ namespace Backend.Core.Application.Interfaces
         Task<List<TEntity>> GetAllAsync();
         Task<TEntity> GetByIdAsync(string id);
 
-        Task AddAsync(TEntity entity);
+        Task<TEntity>  AddAsync(TEntity entity);
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Backend.Core.Domain.Entities
 {
-    public class Questions
+    public class Question
     {
         public Guid Id { get; set; }
         public string Description { get; set; }

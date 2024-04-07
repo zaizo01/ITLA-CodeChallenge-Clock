@@ -18,11 +18,11 @@ namespace Backend.Infraestructure.Persistence.Repositories
         {
             return await Entities.FindAsync(id);
         }
-
-        public async Task AddAsync(TEntity entity)
+        public async Task<TEntity> AddAsync(TEntity entity)
         {
             await Entities.AddAsync(entity);
             await dbContext.SaveChangesAsync();
+            return entity;
         }
     }
 }
