@@ -40,3 +40,17 @@ obj/
 # Archivos de caché de Visual Studio
 .vscode/
 .vs/
+
+# Ignorar todo el directorio obj
+[obj/]
+
+# Ignorar archivos de cache específicos
+*.cache
+
+# Ignorar archivos específicos de nuget
+*.nuget.dgspec.json
+project.assets.json
+project.nuget.cache
+
+# También es común ignorar el directorio bin/
+[bin/]
