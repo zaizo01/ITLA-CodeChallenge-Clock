@@ -1,4 +1,5 @@
 ﻿using Backend.Core.Application.Interfaces;
+using Backend.Core.Domain.Entities;
 using Backend.Infraestructure.Persistence.Context;
 using Backend.Infraestructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ namespace Backend.Infraestructure.Persistence
 
             services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IQuestionRepository, QuestionRepository>();
+            services.AddTransient<IChallengeResultRepository, ChallengeResultRepository>();
         }
     }
 }

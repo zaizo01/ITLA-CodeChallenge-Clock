@@ -22,7 +22,7 @@ public class QuestionController : BaseApiController
     }
 
     [HttpGet("GetQuestionsByLevel{level}")]
-    public async Task<IActionResult> GetAll(string level)
+    public async Task<IActionResult> GetAll(int level)
     {
         try
         {

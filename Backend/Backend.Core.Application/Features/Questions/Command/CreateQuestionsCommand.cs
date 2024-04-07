@@ -8,7 +8,7 @@ namespace Backend.Core.Application.Features.Questions.Command;
 public class CreateQuestionsCommand : IRequest<CreateQuestionsCommand>
 {
     public string Description { get; set; }
-    public string Level { get; set; }
+    public int Level { get; set; }
     public string CorrectAnswer { get; set; }
 }
 

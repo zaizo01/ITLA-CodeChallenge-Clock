@@ -7,7 +7,7 @@ namespace Backend.Core.Application.Features.Questions.Queries;
 
 public class GetAllQuestionQuery : IRequest<IEnumerable<QuestionDto>>
 {
-    public string Level { get; set; }
+    public int Level { get; set; }
 }
 
 public class GetAllQuestionQueryHandler(IQuestionRepository questionRepository, IMapper mapper)

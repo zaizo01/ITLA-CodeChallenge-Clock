@@ -31,9 +31,9 @@ namespace Backend.Infraestructure.Persistence.Migrations
                     b.Property<int>("CorrectAnswersCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("Level")
+                    b.Property<int>("Level")
                         .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("int");
 
                     b.Property<decimal>("MinutiesElapsed")
                         .HasPrecision(5, 3)
@@ -47,7 +47,7 @@ namespace Backend.Infraestructure.Persistence.Migrations
                     b.ToTable("ChallengeResults", (string)null);
                 });
 
-            modelBuilder.Entity("Backend.Core.Domain.Entities.Questions", b =>
+            modelBuilder.Entity("Backend.Core.Domain.Entities.Question", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -62,10 +62,9 @@ namespace Backend.Infraestructure.Persistence.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Level")
-                        .IsRequired()
+                    b.Property<int>("Level")
                         .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

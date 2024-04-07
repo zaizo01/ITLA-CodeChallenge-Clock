@@ -5,5 +5,5 @@ namespace Backend.Core.Application.Interfaces;
 
 public interface IQuestionRepository : IBaseRepository<Question>
 {
-    Task<List<Question>> GetAllByLevelAsync(string level);
+    Task<List<Question>> GetAllByLevelAsync(int level);
 }
