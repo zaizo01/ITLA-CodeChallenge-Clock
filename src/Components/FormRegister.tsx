@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 // INTERFACES
 interface RegisterProps {
@@ -17,7 +18,7 @@ interface ErrorsProps {
     errConfirmacion: boolean
 }
 
-export default function Form() {
+export default function FormRegister() {
 
     // VARS
     const [registerData, setRegisterData] = React.useState<RegisterProps>({
@@ -91,7 +92,9 @@ export default function Form() {
     }
 
     return (
-        <div className="flex justify-center flex-wrap">
+        <div 
+          className="flex flex-row justify-center items-center flex-wrap min-h-[91vh]"
+        >
       <div className="max-w-md w-full  md:flex-shrink-0 md:mr-4 mb-4 md:mb-0">
         <div className="max-w-md relative flex flex-col p-4 rounded-md text-black bg-white">
           <div className="text-2xl font-bold mb-2 text-[#1e0e4b] text-center">Bienvenido a <span className="text-[#7747ff]">App</span></div>
@@ -182,7 +185,7 @@ export default function Form() {
             <button type="submit" className="mt-5 bg-[#7747ff] w-max m-auto px-6 py-2 rounded text-white text-sm font-normal">Registrarse</button>
           </form>
 
-          <div className="text-sm text-center mt-[1.6rem]">Ya tienes Cuenta? <a className="text-sm text-[#7747ff]" href="#">Iniciar Sesion</a></div>
+          <div className="text-sm text-center mt-[1.6rem]">¿Ya tienes cuenta? <Link to="/login" className="text-sm text-[#7747ff]">Iniciar Sesion</Link></div>
         </div>
       </div>
       <div className="max-w-md w-96 md:w-auto md:flex-shrink-0 md:ml-4">
