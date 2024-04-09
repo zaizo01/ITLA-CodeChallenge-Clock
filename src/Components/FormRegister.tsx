@@ -1,5 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { MySwal } from '../classes/MySwal';
+import { USERCONTEXT } from '../App';
 
 // INTERFACES
 interface RegisterProps {
@@ -28,15 +30,9 @@ export default function FormRegister() {
         contraseña: "",
         confirmacion: ""
     })
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [regEx, setRegEx] = React.useState<RegExp>(new RegExp(/^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$/))
-    const [errData, setErrData] = React.useState<ErrorsProps>({
-        errNombre: false,
-        errApellido: false,
-        errMatricula: false,
-        errContraseña: false,
-        errConfirmacion: false
-    })
+    const [regEx] = React.useState<RegExp>(new RegExp(/^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$/))
+    const userContext = React.useContext<any>(USERCONTEXT);
+    const navigation = useNavigate();
 
     // FUNCTIONS
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,59 +49,99 @@ export default function FormRegister() {
         })
     }
 
-    const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
+        // Preventing default behavior
+        e?.preventDefault();
 
-
+        // Conditions
         if (registerData?.nombre === "" || registerData?.nombre.length === 0) {
-            // Preventing default behavior
-            e?.preventDefault();
-            setErrData((value) => value = { ...value, errNombre: true });
+          MySwal.errorMessage("El campo nombre no está completado de manera correcta.")
+          return;
         }
 
-        if (registerData?.apellido === "" || registerData?.apellido?.length === 0) {
-            // Preventing default behavior
-            e?.preventDefault();
-            setErrData((value) => value = { ...value, errApellido: true });
+        if (registerData?.apellido === "" || registerData?.apellido?.length === 0) { 
+          MySwal.errorMessage("El campo apellido no está completado de manera correcta.")
+          return;
         }
 
-        if (registerData?.matricula?.length === 0 || registerData?.matricula?.includes("-") === false) {
-            // Preventing default behavior
-            e?.preventDefault();
-            setErrData((value) => value = { ...value, errMatricula: true });
+        if (registerData?.matricula?.length === 0 || registerData?.matricula?.length < 8) {
+          MySwal.errorMessage("El campo matrícula no está lleno de manera correcta.")
+          return;
         }
 
         if (registerData?.contraseña === "" || registerData?.contraseña?.length === 0) {
-            setErrData((value) => value = { ...value, errContraseña: true });
+          MySwal.errorMessage("El campo contraseña no está lleno de manera correcta.")
+          return;
         }
 
         if (registerData?.confirmacion === "" || registerData?.confirmacion?.length === 0) {
-            setErrData((value) => value = { ...value, errConfirmacion: true });
+          MySwal.errorMessage("El campo confirmación no está lleno de manera correcta.")
+          return;
         }
 
-        const data = Object.values(errData);
-
-        if (data.includes(true)) {
+        await fetch(`https://localhost:7010/Users`, {
+          method: "POST",
+          body: JSON.stringify({ 
+            firstName: registerData?.nombre, 
+            lastName: registerData?.apellido,
+            registrationNumber: registerData?.matricula,
+            passWord: registerData?.contraseña
+          }),
+          mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then((res) => res.json())
+        .then((data) => {
+          if(data?.hasError === true)
+          {
+            MySwal.errorMessage("Algo ha ocurrido con los datos suministrados... por favor... intentelo de nuevo.")
             return;
-        }
+          }
+
+          userContext?.returnSetUser(data)
+          MySwal.successMessage(`Bienvenido ${data?.firstName}`);
+          navigation("/login/choose-category", {
+            replace: true,
+          })
+        })
+        .catch((err) => console.error(err))
 
     }
 
     return (
         <div 
-          className="flex flex-row justify-center items-center flex-wrap min-h-[91vh]"
+          className="flex flex-row justify-center items-center flex-wrap min-h-[91.4vh]"
         >
       <div className="max-w-md w-full  md:flex-shrink-0 md:mr-4 mb-4 md:mb-0">
-        <div className="max-w-md relative flex flex-col p-4 rounded-md text-black bg-white">
-          <div className="text-2xl font-bold mb-2 text-[#1e0e4b] text-center">Bienvenido a <span className="text-[#7747ff]">App</span></div>
+        <div className="max-w-md relative flex flex-col p-4 rounded-md text-black bg-white mt-5">
+
+          {/* ICON */}
+          <section className="absolute items-center -top-[45px] border-8 border-white left-[35%] w-32 h-32 rounded-full bg-white overflow-hidden">
+              <div className="bg-[#7747ff] w-full h-full flex justify-center items-center">
+                <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="50" height="50">
+                  <path className="text-white" d="M10.5 14.49v.5h.5v-.5h-.5zm-10 0H0v.5h.5v-.5zm7-4.996v.5-.5zm-4 0v-.5.5zM8 3.498a2.499 2.499 0 01-2.5 2.498v1C7.433 6.996 9 5.43 9 3.498H8zM5.5 5.996A2.499 2.499 0 013 3.498H2a3.499 3.499 0 003.5 3.498v-1zM3 3.498A2.499 2.499 0 015.5 1V0A3.499 3.499 0 002 3.498h1zM5.5 1A2.5 2.5 0 018 3.498h1A3.499 3.499 0 005.5 0v1zm5 12.99H.5v1h10v-1zm-9.5.5v-1.996H0v1.996h1zm2.5-4.496h4v-1h-4v1zm6.5 2.5v1.996h1v-1.997h-1zm-2.5-2.5a2.5 2.5 0 012.5 2.5h1a3.5 3.5 0 00-3.5-3.5v1zm-6.5 2.5a2.5 2.5 0 012.5-2.5v-1a3.5 3.5 0 00-3.5 3.5h1zM12 5v5h1V5h-1zm-2 3h5V7h-5v1z" fill="currentColor"></path>
+                </svg>
+              </div>
+          </section>
+
+          {/* TITLE */}
+          <div className="text-2xl font-bold mb-2 text-[#1e0e4b] text-center mt-[70px]">
+            Bienvenido a <span className="text-[#7747ff]">App</span>
+          </div>
+          
+          {/* REGISTRATION FORM */}
           <form className="flex flex-col gap-3" onSubmit={handleOnSubmit}>
 
+            {/* Name Field */}
             <div className="block relative">
               <label htmlFor="text" className="block text-gray-600 cursor-text leading-[140%] font-normal mb-2">Nombre</label>
               <input
                 type="text"
                 id="text"
-                className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0"
+                className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] transition-all duration-300 appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0"
                 required
                 name="nombre"
                 placeholder='Ej.Juan pablo duarte'
@@ -117,12 +153,13 @@ export default function FormRegister() {
 
             </div>
 
+            {/* Lastname Field */}
             <div className="block relative">
               <label htmlFor="text" className="block text-gray-600 cursor-text leading-[140%] font-normal mb-2">Apellido</label>
               <input
                 type="text"
                 id="text"
-                className="rounded border border-gray-200 w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0"
+                className="transition-all duration-300 rounded border border-gray-200 w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0"
                 required
                 name="apellido"
                 placeholder='Ej.Juan pablo duarte'
@@ -134,30 +171,36 @@ export default function FormRegister() {
 
             </div>
 
+            {/* RegistrationNumber Field */}
             <div className="block relative">
               <label className="block text-gray-600 cursor-text leading-[140%] font-normal mb-2">Matricula</label>
               <input
                 type="text"
-                className="rounded border border-gray-200 w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0"
+                className="transition-all duration-300 rounded border border-gray-200 w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0"
                 required
                 name="matricula"
-                placeholder='Ej.20220102'
+                placeholder='Ej: 20220102'
+                onChange={(e) => handleOnChange(e)}
               />
-              {registerData?.matricula.length === 0 || registerData?.matricula.length >= 9 && registerData?.matricula.includes("-") ?
-                null :
-                <small className="text-red-500 w-full">¡Oops! Este campo require ser mínimo de 8 números y un guión</small>
+              {registerData?.matricula.length === 0 || registerData?.matricula.length >= 8 
+                ?
+                  null 
+                :
+                <small className="text-red-500 w-full">¡Oops! Este campo require ser mínimo de 8 números</small>
               }
             </div>
 
+            {/* Password Field */}
             <div className="block relative">
               <label className="block text-gray-600 cursor-text leading-[140%] font-normal mb-2">Contraseña</label>
               <input
                 type="password"
                 name="contraseña"
                 id="password"
-                className="rounded border border-gray-200 w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0"
+                className="rounded transition-all duration-300 border border-gray-200 w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0"
                 required
                 placeholder='contraseña'
+                onChange={(e) => handleOnChange(e)}
               />
 
               {registerData?.contraseña.length === 0 || regEx.test(registerData?.contraseña) === true ?
@@ -166,15 +209,17 @@ export default function FormRegister() {
               }
             </div>
 
+            {/* Confirmation Field */}
             <div className="block relative">
               <label htmlFor="password" className="block text-gray-600 cursor-text leading-[140%] font-normal mb-2">Repita Contraseña</label>
               <input
                 type="password"
                 name="confirmacion"
                 id="password"
-                className="rounded border border-gray-200 w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0"
+                className="rounded transition-all duration-300 border border-gray-200 w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0"
                 required
                 placeholder='repita la contraseña'
+                onChange={(e) => handleOnChange(e)}
               />
               {registerData?.confirmacion.length === 0 || (regEx.test(registerData?.confirmacion) === true && registerData?.confirmacion === registerData?.contraseña) ?
                 null :
@@ -182,12 +227,21 @@ export default function FormRegister() {
               }
             </div>
 
-            <button type="submit" className="mt-5 bg-[#7747ff] w-max m-auto px-6 py-2 rounded text-white text-sm font-normal">Registrarse</button>
+            {/* Submit Button */}
+            <button type="submit" className="mt-5 bg-[#7747ff] w-max m-auto px-6 py-2 rounded text-white text-sm font-normal">Participar</button>
+          
+          
           </form>
 
-          <div className="text-sm text-center mt-[1.6rem]">¿Ya tienes cuenta? <Link to="/login" className="text-sm text-[#7747ff]">Iniciar Sesion</Link></div>
+          {/* GO TO LOGIN LINK */}
+          <section className="text-sm text-center mt-[1.6rem]">
+            ¿Ya has participado? <Link to="/login" className="text-sm text-[#7747ff]">Inicia Sesion</Link>
+          </section>
+        
         </div>
       </div>
+
+      {/* IMAGE SECTION CONTAINER */}
       <div className="max-w-md w-96 md:w-auto md:flex-shrink-0 md:ml-4">
         <img src="/home.png" alt="." className="rounded w-full" />
       </div>

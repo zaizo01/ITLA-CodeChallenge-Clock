@@ -8,6 +8,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import FormLogin from './Components/FormLogin'
 import ChoosingCategory from './Components/ChoosingCategory'
 import React from 'react'
+import PositionTable from './Components/PositionTable'
 
 export const USERCONTEXT = React.createContext({});
 
@@ -21,7 +22,7 @@ function App() {
     }
     else
     {
-      localStorage.setItem("user", JSON.stringify({}));
+      localStorage.setItem("user", JSON.stringify(null));
       val = localStorage.getItem("user")
     }
 
@@ -57,29 +58,32 @@ function App() {
 
         <Route path="/register" element={
           // If user is logged on, redirect him to choosing category
-          user?.registrationNumber !== null && user !== null
+          user !== null
           ?
-            <Navigate to="/login/choose-category" replace={true} />
+            <Navigate to="/register/choose-category" replace={true} />
           :
           <FormRegister />
         } />
 
         <Route path="/login" element={
-          // If user is logged on, redirect to choosing-category link
-          user?.registrationNumber !== null && user !== null
-          ?
-            <Navigate to="/login/choose-category" replace={true} />
-          :
           <FormLogin />
         } />
 
 
-        <Route path="/login/choose-category" element={
-          user?.registrationNumber === null && user === null
+        <Route path="/register/choose-category" element={
+          user === null
+          ?
+            <Navigate to="/register" replace={true} />
+          :
+          <ChoosingCategory />} 
+        />
+
+      <Route path="/ranking" element={
+          user === null
           ?
             <Navigate to="/login" replace={true} />
           :
-          <ChoosingCategory />} 
+          <PositionTable />} 
         />
       </Routes> 
     </USERCONTEXT.Provider>
