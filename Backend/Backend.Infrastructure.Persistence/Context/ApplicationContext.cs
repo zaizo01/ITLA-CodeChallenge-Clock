@@ -14,8 +14,12 @@ namespace Backend.Infraestructure.Persistence.Context
         {
             modelBuilder.Entity<Question>().ToTable("Questions");
             modelBuilder.Entity<Question>().HasKey(x=> x.Id);
-            modelBuilder.Entity<Question>().Property(x => x.Description).HasMaxLength(100);
+            modelBuilder.Entity<Question>().Property(x => x.Description).HasMaxLength(300);
             modelBuilder.Entity<Question>().Property(x => x.Level).HasMaxLength(10);
+            modelBuilder.Entity<Question>().Property(x => x.IncorrectAnswser1).HasMaxLength(100);
+            modelBuilder.Entity<Question>().Property(x => x.IncorrectAnswser2).HasMaxLength(100);
+            modelBuilder.Entity<Question>().Property(x => x.IncorrectAnswser3).HasMaxLength(100);
+            modelBuilder.Entity<Question>().Property(x => x.CorrectAnswer).HasMaxLength(100);
 
 
             modelBuilder.Entity<ChallengeResult>().ToTable("ChallengeResults");
