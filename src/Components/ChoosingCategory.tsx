@@ -1,33 +1,29 @@
 import React from 'react';
-
+import { useNavigate } from 'react-router-dom';
 // INTERFACES
 
 
 export default function ChoosingCategory() {
 
     // VARS
+    const navigation = useNavigate();
     const [categories] = React.useState([
-        "FÁCIL",
-        "MEDIO",
-        "EXPERTO"
+        "NOVATO",
+        "Se Programar",
+        "Programador Dedicado"
     ])
 
     // FUNCTIONS
     const handleOnSelectCategory = (id: number) => {
-        
-        switch(id)
-        {
-            case 1:
-                console.info(id)
-                break;
-            case 2:
-                console.info(id)
-                break;
-            case 3:
-                console.info(id)
-                break;
+        console.log(id)
+
+        localStorage.setItem("categoria",id.toString())
+
+        navigation("/question/"+id, {
+            replace: true,
+          })
+    
         }
-    }
   
 
     return (

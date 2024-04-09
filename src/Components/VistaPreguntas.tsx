@@ -33,19 +33,19 @@ function VistaPreguntas() {
                                         <h1 className="text-black text-3xl">Respuestas</h1>
                                         <div className="text-left">
                                             <form className="form mt-5">
-                                                <label htmlFor="01">
+                                                <label htmlFor="01" className="text-green-500 ">
                                                     <input id="01" type="radio" name="r" value="1" checked={respuestaSeleccionada === '1'} onChange={handleRespuestaSeleccionada} />
-                                                    Respuesta 3
+                                                    Respuesta Correcta 4
                                                 </label>
                                                 <br />
-                                                <label htmlFor="02">
+                                                <label htmlFor="02" className="text-red-500 ">
                                                     <input id="02" type="radio" name="r" value="2" checked={respuestaSeleccionada === '2'} onChange={handleRespuestaSeleccionada} />
-                                                    Respuesta 4  
+                                                    Respuesta Incorrecta 8
                                                 </label>
                                                 <br />
-                                                <label htmlFor="03">
+                                                <label htmlFor="03" className="text-red-500 ">
                                                     <input id="03" type="radio" name="r" value="3" checked={respuestaSeleccionada === '3'} onChange={handleRespuestaSeleccionada} />
-                                                    Respuesta 5
+                                                    Respuesta Incorrecta 6
                                                 </label> 
                                             </form>
                                         </div>

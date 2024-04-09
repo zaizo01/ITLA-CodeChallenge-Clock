@@ -71,7 +71,7 @@ export default function FormLogin() {
 
           userContext?.returnSetUser(data)
           MySwal.successMessage(`Bienvenido ${data?.firstName}`);
-          navigation("/login/choose-category", {
+          navigation("/register/choose-category", {
             replace: true,
           })
         })
@@ -90,10 +90,10 @@ export default function FormLogin() {
                   {/* Icon */}
                   <section className="absolute items-center -top-[70px] border-8 border-white left-[35%] w-32 h-32 rounded-full bg-white overflow-hidden">
                       <div className="bg-[#7747ff] w-full h-full flex justify-center items-center">
-                          <svg className="mx-auto" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="50" height="50">
-                              <path className="m-auto text-white" d="M15 3.5H6.5m0 0a2 2 0 10-4 0m4 0a2 2 0 11-4 0m0 0H0m15 8h-2.5m0 0a2 2 0 10-4 0m4 0a2 2 0 11-4 0m0 0H0" stroke="currentColor">
-                              </path>
-                          </svg>
+                        <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="50" height="50">
+                          <path className="text-white" d="M3 13v.5h1V13H3zm8 0v.5h1V13h-1zm-7 0v-.5H3v.5h1zm2.5-3h2V9h-2v1zm4.5 2.5v.5h1v-.5h-1zM8.5 10a2.5 2.5 0 012.5 2.5h1A3.5 3.5 0 008.5 9v1zM4 12.5A2.5 2.5 0 016.5 10V9A3.5 3.5 0 003 12.5h1zM7.5 3A2.5 2.5 0 005 5.5h1A1.5 1.5 0 017.5 4V3zM10 5.5A2.5 2.5 0 007.5 3v1A1.5 1.5 0 019 5.5h1zM7.5 8A2.5 2.5 0 0010 5.5H9A1.5 1.5 0 017.5 7v1zm0-1A1.5 1.5 0 016 5.5H5A2.5 2.5 0 007.5 8V7zm0 7A6.5 6.5 0 011 7.5H0A7.5 7.5 0 007.5 15v-1zM14 7.5A6.5 6.5 0 017.5 14v1A7.5 7.5 0 0015 7.5h-1zM7.5 1A6.5 6.5 0 0114 7.5h1A7.5 7.5 0 007.5 0v1zm0-1A7.5 7.5 0 000 7.5h1A6.5 6.5 0 017.5 1V0z" fill="currentColor">
+                          </path>
+                        </svg>
                       </div>
                   </section>
 

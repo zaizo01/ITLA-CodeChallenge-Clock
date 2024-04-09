@@ -1,35 +1,24 @@
 import React from 'react';
 
 // INTERFACES
-
+interface TableProps
+{
+    nombre: string,
+    puntuacion: number
+}
 
 export default function PositionTable() {
 
     // VARS
-    const [categories] = React.useState([
-        "FÁCIL",
-        "MEDIO",
-        "EXPERTO"
-    ])
+    const [usuarios] = React.useState<TableProps[]>([
+        { nombre: "Carlos Jiménez", puntuacion: 100 },
+        { nombre: "Ednal Hillhouse", puntuacion: 90 },
+        { nombre: "Onell Dishmey", puntuacion: 80 },
+        { nombre: "Ramy Campusano", puntuacion: 70 },
+        { nombre: "Felipe Cedeño", puntuacion: 60 }
+    ]);
 
-    // FUNCTIONS
-    const handleOnSelectCategory = (id: number) => {
-        
-        switch(id)
-        {
-            case 1:
-                console.info(id)
-                break;
-            case 2:
-                console.info(id)
-                break;
-            case 3:
-                console.info(id)
-                break;
-        }
-    }
   
-
     return (
         <section className="flex flex-row justify-center items-center  min-h-[91vh] h-auto">
           
@@ -41,8 +30,8 @@ export default function PositionTable() {
                     {/* Icon */}
                     <div className="absolute items-center -top-[100px] border-8 border-white left-[25%] md:left-[40%] w-32 h-32 rounded-full bg-white overflow-hidden">
                         <section className="bg-[#F87FFE] w-full h-full flex justify-center items-center">
-                            <svg className="mx-auto" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="50" height="50">
-                                <path className="m-auto text-white" d="M15 3.5H6.5m0 0a2 2 0 10-4 0m4 0a2 2 0 11-4 0m0 0H0m15 8h-2.5m0 0a2 2 0 10-4 0m4 0a2 2 0 11-4 0m0 0H0" stroke="currentColor">
+                            <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" width="50" height="50">
+                                <path className="text-white" d="M.5 4.5h14m-10-4v14m-3-14h12a1 1 0 011 1v12a1 1 0 01-1 1h-12a1 1 0 01-1-1v-12a1 1 0 011-1z" stroke="currentColor">
                                 </path>
                             </svg>
                         </section>
@@ -50,7 +39,7 @@ export default function PositionTable() {
 
                     {/* Title */}
                     <h1 className="text-3xl font-bold mt-8">
-                        Seleccione una categoría:
+                        Tabla de posicionamiento:
                     </h1>
 
                     {/* This is a divider */}
@@ -62,20 +51,43 @@ export default function PositionTable() {
                 {/* CATEGORY SECTION */}
                 <section className="!w-5/6 flex flex-col md:flex-row justify-evenly lg:flex-nowrap items-center gap-5">
 
-                    {
-                        // Looping the array state of categories (String)
-                        categories?.map((val: string, index: number) => {
-                            return <button 
-                                        className="flex text-center flex-row p-4 border-2 rounded-3xl group/anim hover:border-[#F87FFE] transition-all duration-300"
-                                        onClick={() => handleOnSelectCategory(index+1)}
-                                    >
-                                        <div className="w-full flex flex-row justify-center items-center ">
-                                            <h1 className="font-bold text-7xl text-gray-500/50 group-hover/anim:text-[#F87FFE] transition-all duration-300">{index+1}</h1>
-                                            <h3 className="text-lg text-gray-500/50 group-hover/anim:text-[#F87FFE] transition-all duration-300">| {val}</h3>
-                                        </div>
-                                    </button>
-                        })
-                    }
+                <div className="relative overflow-x-auto w-full"> 
+                    <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-100">
+                            <tr>
+                                <th scope="col" className="px-6 py-3 rounded-s-lg">
+                                    Lugar
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Nombre
+                                </th>
+                                <th scope="col" className="px-6 py-3 rounded-e-lg">
+                                    Puntuación
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            {
+                                // Mapping an array
+                                usuarios?.map((value: TableProps, index: number) => {
+                                    return <tr className="bg-white border-b">
+                                         <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                             {index+1}
+                                         </th>
+                                         <td className="px-6 py-4">
+                                             {value?.nombre}
+                                         </td>
+                                         <td className="px-6 py-4">
+                                             {value?.puntuacion}
+                                         </td>
+                                     </tr>
+                                })
+                            }
+                            
+                        </tbody>
+                    </table>
+                </div>   
 
                 </section>
             </div>
