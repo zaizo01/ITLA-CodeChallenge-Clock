@@ -1,5 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { MySwal } from '../classes/MySwal';
+import { USERCONTEXT } from '../App';
+
 
 // INTERFACES
 interface RegisterProps {
@@ -21,6 +25,10 @@ interface ErrorsProps {
 export default function FormRegister() {
 
     // VARS
+    const navigation = useNavigate();
+    const userContext = React.useContext<any>(USERCONTEXT);
+
+
     const [registerData, setRegisterData] = React.useState<RegisterProps>({
         nombre: "",
         apellido: "",
@@ -39,6 +47,7 @@ export default function FormRegister() {
     })
 
     // FUNCTIONS
+    /*
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
         // HOOK
@@ -52,8 +61,9 @@ export default function FormRegister() {
             return value;
         })
     }
+    */
 
-    const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleOnSubmit =async (e: React.FormEvent<HTMLFormElement>) => {
 
 
 
@@ -84,10 +94,48 @@ export default function FormRegister() {
         }
 
         const data = Object.values(errData);
-
+        
         if (data.includes(true)) {
+          return;
+      }
+
+      e?.preventDefault();
+        await fetch(`http://localhost:5091/Users`, {
+          method: "POST",
+          body: JSON.stringify({ 
+            firstName: registerData.nombre,
+            lastName: registerData.apellido,
+            registrationNumber: registerData.matricula,
+            passWord: registerData.contraseña
+          }),
+          //mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then((res) => res.json())
+        .then((data) => {
+          if(data?.hasError === true)
+          {
+            console.log(registerData)
+            MySwal.errorMessage(data.error)
             return;
-        }
+          }
+          console.log(registerData)
+          console.log(data)
+
+          userContext?.returnSetUser(data)
+          MySwal.successMessage(`Bienvenido ${data?.firstName}`);
+
+         
+          navigation("/login/choose-category", {
+            replace: true,
+          })
+         
+
+        }) 
+        .catch((err) => console.error(err))  
+ 
 
     }
 
@@ -101,15 +149,15 @@ export default function FormRegister() {
           <form className="flex flex-col gap-3" onSubmit={handleOnSubmit}>
 
             <div className="block relative">
-              <label htmlFor="text" className="block text-gray-600 cursor-text leading-[140%] font-normal mb-2">Nombre</label>
+              <label htmlFor="text" className="text-left block text-blue leading-[140%] font-normal mb-2">Nombre</label>
               <input
                 type="text"
-                id="text"
+        
                 className="rounded border border-gray-200 text-sm w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0"
                 required
                 name="nombre"
-                placeholder='Ej.Juan pablo duarte'
-                onChange={(e) => handleOnChange(e)}
+                placeholder='Ej.Juan '
+                onChange={(e) => setRegisterData({...registerData,nombre:e.target.value})}
               />
               {registerData?.nombre.length !== 0 && registerData?.nombre.length < 3 &&
                 <small className="text-red-500 w-full">¡Oops! Este campo es obligatorio</small>
@@ -118,15 +166,15 @@ export default function FormRegister() {
             </div>
 
             <div className="block relative">
-              <label htmlFor="text" className="block text-gray-600 cursor-text leading-[140%] font-normal mb-2">Apellido</label>
+              <label htmlFor="text" className="text-left block text-blue leading-[140%] font-normal mb-2">Apellido</label>
               <input
                 type="text"
-                id="text"
+             
                 className="rounded border border-gray-200 w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0"
                 required
                 name="apellido"
-                placeholder='Ej.Juan pablo duarte'
-                onChange={(e) => handleOnChange(e)}
+                placeholder='Ej.pablo duarte'
+                onChange={(e) => setRegisterData({...registerData,apellido:e.target.value})}
               />
               {registerData?.apellido.length !== 0 && registerData?.apellido.length < 3 &&
                 <small className="text-red-500 w-full">¡Oops! Este campo es obligatorio</small>
@@ -135,13 +183,14 @@ export default function FormRegister() {
             </div>
 
             <div className="block relative">
-              <label className="block text-gray-600 cursor-text leading-[140%] font-normal mb-2">Matricula</label>
+              <label className="text-left block text-blue leading-[140%] font-normal mb-2">Matricula</label>
               <input
                 type="text"
                 className="rounded border border-gray-200 w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0"
                 required
                 name="matricula"
                 placeholder='Ej.20220102'
+                onChange={(e) => setRegisterData({...registerData,matricula:e.target.value})}
               />
               {registerData?.matricula.length === 0 || registerData?.matricula.length >= 9 && registerData?.matricula.includes("-") ?
                 null :
@@ -150,14 +199,15 @@ export default function FormRegister() {
             </div>
 
             <div className="block relative">
-              <label className="block text-gray-600 cursor-text leading-[140%] font-normal mb-2">Contraseña</label>
+              <label className="text-left block text-blue leading-[140%] font-normal mb-2">Contraseña</label>
               <input
                 type="password"
                 name="contraseña"
-                id="password"
+
                 className="rounded border border-gray-200 w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0"
                 required
                 placeholder='contraseña'
+                onChange={(e) => setRegisterData({...registerData,contraseña:e.target.value})}
               />
 
               {registerData?.contraseña.length === 0 || regEx.test(registerData?.contraseña) === true ?
@@ -167,14 +217,15 @@ export default function FormRegister() {
             </div>
 
             <div className="block relative">
-              <label htmlFor="password" className="block text-gray-600 cursor-text leading-[140%] font-normal mb-2">Repita Contraseña</label>
+              <label htmlFor="password" className="text-left block text-blue leading-[140%] font-normal mb-2">Repita Contraseña</label>
               <input
                 type="password"
                 name="confirmacion"
-                id="password"
+
                 className="rounded border border-gray-200 w-full font-normal leading-[18px] text-black tracking-[0px] appearance-none block h-11 m-0 p-[11px] focus:ring-2 ring-offset-2 ring-gray-900 outline-0"
                 required
                 placeholder='repita la contraseña'
+                onChange={(e) => setRegisterData({...registerData,confirmacion:e.target.value})}
               />
               {registerData?.confirmacion.length === 0 || (regEx.test(registerData?.confirmacion) === true && registerData?.confirmacion === registerData?.contraseña) ?
                 null :

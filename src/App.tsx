@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import './App.css'
 import './styles/Form.css'
 import './styles/VistaPreguntas.css'
@@ -15,14 +16,12 @@ function App() {
 
   // STATES, VARS
   const [user, setUser] = React.useState((val: any) => {
-    if(localStorage.getItem("user") !== null)
-    {
+    if (localStorage.getItem("user") !== null) {
       val = localStorage.getItem("user");
     }
-    else
-    {
-      localStorage.setItem("user", JSON.stringify({}));
-      val = localStorage.getItem("user")
+    else {
+      //localStorage.setItem("user", JSON.stringify({}));
+      val = localStorage.getItem("user"); 
     }
 
     return JSON.parse(val);
@@ -32,8 +31,9 @@ function App() {
   const returnSetUser = (value: any) => {
     return setUser((val: any) => {
 
-      localStorage.setItem("user", JSON.stringify(value));
-      val = localStorage.getItem("user")
+      const user = JSON.stringify(value);
+      localStorage.setItem("user", user);
+      val = user;
       return JSON.parse(val);
 
     })
@@ -44,11 +44,11 @@ function App() {
 
 
     // CLEANING FUNCTION
-    return () => {};
+    return () => { };
 
   }, [])
 
-  return ( 
+  return (
     <USERCONTEXT.Provider value={{
       user, returnSetUser
     }} >
@@ -56,32 +56,33 @@ function App() {
         <Route path="/" element={<Home />} />
 
         <Route path="/register" element={
-          // If user is logged on, redirect him to choosing category
-          user?.registrationNumber !== null && user !== null
-          ?
+            user?.registrationNumber === null || user === null
+            ?
+            <FormRegister /> 
+            :
             <Navigate to="/login/choose-category" replace={true} />
-          :
-          <FormRegister />
         } />
 
+
         <Route path="/login" element={
-          // If user is logged on, redirect to choosing-category link
-          user?.registrationNumber !== null && user !== null
-          ?
+            user?.registrationNumber === null || user === null
+            ? 
+            <FormLogin />
+            :
             <Navigate to="/login/choose-category" replace={true} />
-          :
-          <FormLogin />
         } />
 
 
         <Route path="/login/choose-category" element={
-          user?.registrationNumber === null && user === null
-          ?
+          user?.registrationNumber === null  || user === null
+            ?
             <Navigate to="/login" replace={true} />
-          :
-          <ChoosingCategory />} 
+            :
+            <ChoosingCategory />}
         />
-      </Routes> 
+
+
+      </Routes>
     </USERCONTEXT.Provider>
   )
 }
