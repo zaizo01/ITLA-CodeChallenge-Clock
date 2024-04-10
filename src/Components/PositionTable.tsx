@@ -71,7 +71,7 @@ export default function PositionTable() {
                             {
                                 // Mapping an array
                                 usuarios?.map((value: TableProps, index: number) => {
-                                    return <tr className="bg-white border-b">
+                                    return <tr className="bg-white border-b" key={index}>
                                          <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                              {index+1}
                                          </th>

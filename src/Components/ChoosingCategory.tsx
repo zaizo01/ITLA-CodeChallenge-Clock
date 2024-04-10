@@ -1,5 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import easy from '../CategoriasIcon/easy.svg'
+import medium from '../CategoriasIcon/medium.svg'
+import high from '../CategoriasIcon/high.svg'
+
+
 // INTERFACES
 
 
@@ -7,33 +12,35 @@ export default function ChoosingCategory() {
 
     // VARS
     const navigation = useNavigate();
+    /*
     const [categories] = React.useState([
         "NOVATO",
         "Se Programar",
         "Programador Dedicado"
     ])
+    */
 
     // FUNCTIONS
     const handleOnSelectCategory = (id: number) => {
         console.log(id)
 
-        localStorage.setItem("categoria",id.toString())
+        localStorage.setItem("categoria", id.toString())
 
-        navigation("/question/"+id, {
+        navigation("/question/" + id, {
             replace: true,
-          })
-    
-        }
-  
+        })
+
+    }
+
 
     return (
         <section className="flex flex-row justify-center items-center  min-h-[91vh] h-auto">
-          
-            <div className="p-4 py-8 !w-5/6 !h-4/6 rounded-3xl bg-white flex flex-col justify-between items-center md:flex-nowrap">
+            
+            <div className=" p-4 py-8 !w-5/6 !h-4/6 rounded-3xl bg-white flex flex-col justify-between items-center md:flex-nowrap">
 
                 {/* TITLE SECTION */}
                 <section className="!w-2/3 text-center relative">
-                    
+
                     {/* Icon */}
                     <div className="absolute items-center -top-[100px] border-8 border-white left-[25%] md:left-[40%] w-32 h-32 rounded-full bg-white overflow-hidden">
                         <section className="bg-[#F87FFE] w-full h-full flex justify-center items-center">
@@ -55,23 +62,38 @@ export default function ChoosingCategory() {
 
                 </section>
 
-                {/* CATEGORY SECTION */}
-                <section className="!w-5/6 flex flex-col md:flex-row justify-evenly lg:flex-nowrap items-center gap-5">
 
-                    {
-                        // Looping the array state of categories (String)
-                        categories?.map((val: string, index: number) => {
-                            return <button 
-                                        className="flex text-center flex-row p-4 border-2 rounded-3xl group/anim hover:border-[#F87FFE] transition-all duration-300"
-                                        onClick={() => handleOnSelectCategory(index+1)}
-                                    >
-                                        <div className="w-full flex flex-row justify-center items-center ">
-                                            <h1 className="font-bold text-7xl text-gray-500/50 group-hover/anim:text-[#F87FFE] transition-all duration-300">{index+1}</h1>
-                                            <h3 className="text-lg text-gray-500/50 group-hover/anim:text-[#F87FFE] transition-all duration-300">| {val}</h3>
-                                        </div>
-                                    </button>
-                        })
-                    }
+                {/* CATEGORY SECTION */}
+                <section className=" flex flex-col md:flex-row justify-evenly lg:flex-nowrap items-center gap-5">
+                    <button
+                    onClick={() => handleOnSelectCategory(1)}
+                        className="flex text-center flex-row p-4 border-2 rounded-3xl group/anim hover:border-[#F87FFE] transition-all duration-300"
+                    >
+                        <div className="w-full flex flex-row justify-center items-center ">
+                            <img className="w-20" src={easy} alt="." />
+                            <h3 className="text-lg text-green-500 group-hover/anim:text-[#F87FFE] transition-all duration-300">BEBE</h3>
+                        </div>
+                    </button>
+
+                    <button
+                          onClick={() => handleOnSelectCategory(2)}
+                        className="flex text-center flex-row p-4 border-2 rounded-3xl group/anim hover:border-[#F87FFE] transition-all duration-300"
+                    >
+                        <div className="w-full flex flex-row justify-center items-center ">
+                            <img className="w-20" src={medium} alt="." />
+                            <h3 className="text-lg text-yellow-500 group-hover/anim:text-[#F87FFE] transition-all duration-300">Nivel Medio</h3>
+                        </div>
+                    </button>
+
+                    <button
+                          onClick={() => handleOnSelectCategory(3)}
+                        className="flex text-center flex-row p-4 border-2 rounded-3xl group/anim hover:border-[#F87FFE] transition-all duration-300"
+                    >
+                        <div className="w-full flex flex-row justify-center items-center ">
+                            <img className="w-20" src={high} alt="." />
+                            <h3 className="text-lg text-red-500 group-hover/anim:text-[#F87FFE] transition-all duration-300">NIvel Dios!!!</h3>
+                        </div>
+                    </button>
 
                 </section>
             </div>

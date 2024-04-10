@@ -10,6 +10,7 @@ import FormLogin from './Components/FormLogin'
 import ChoosingCategory from './Components/ChoosingCategory'
 import React from 'react'
 import PositionTable from './Components/PositionTable'
+import Navbar from './Components/Navbar';
 
 export const USERCONTEXT = React.createContext({});
 
@@ -53,7 +54,9 @@ return (
   <USERCONTEXT.Provider value={{
     user, returnSetUser
   }} >
+
     <Routes>
+
       <Route path="/" element={<Home />} />
 
       <Route path="/register" element={

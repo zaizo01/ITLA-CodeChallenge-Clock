@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_2" data-name="Capa 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 228.95 57.84">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke: url(#Degradado_sin_nombre_11-3);
+        stroke-width: 14px;
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+        stroke-linecap: round;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-2 {
+        stroke: url(#Degradado_sin_nombre_11);
+      }
+
+      .cls-2, .cls-3 {
+        stroke-width: 21px;
+      }
+
+      .cls-3 {
+        stroke: url(#Degradado_sin_nombre_11-2);
+      }
+    </style>
+    <linearGradient id="Degradado_sin_nombre_11" data-name="Degradado sin nombre 11" x1="62.98" y1="28.92" x2="228.95" y2="28.92" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d082d2"/>
+      <stop offset=".4" stop-color="#a890e1"/>
+      <stop offset="1" stop-color="#809ff0"/>
+    </linearGradient>
+    <linearGradient id="Degradado_sin_nombre_11-2" data-name="Degradado sin nombre 11" x1="0" x2="28.31" gradientTransform="translate(28.31) rotate(-180) scale(1 -1)" xlink:href="#Degradado_sin_nombre_11"/>
+    <linearGradient id="Degradado_sin_nombre_11-3" data-name="Degradado sin nombre 11" x1="18.11" y1="28.92" x2="75.95" y2="28.92" xlink:href="#Degradado_sin_nombre_11"/>
+  </defs>
+  <g id="Capa_1-2" data-name="Capa 1">
+    <g>
+      <line class="cls-2" x1="218.45" y1="28.92" x2="73.48" y2="28.92"/>
+      <line class="cls-3" x1="17.81" y1="28.92" x2="10.5" y2="28.92"/>
+      <circle class="cls-1" cx="47.03" cy="28.92" r="21.92"/>
+    </g>
+  </g>
+</svg>

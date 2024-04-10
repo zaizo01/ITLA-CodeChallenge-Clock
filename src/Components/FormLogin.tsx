@@ -106,7 +106,7 @@ export default function FormLogin() {
 
                     {/* USERNAME FIELD */}
                     <div className="block relative">
-                      <label htmlFor="text" className="block text-gray-600 cursor-text leading-[140%] font-normal mb-2">Usuario</label>
+                      <label htmlFor="text" className="text-left block cursor-text leading-[140%] font-normal mb-2">Matricula</label>
                       <input
                         type="text"
                         id="text"
@@ -124,7 +124,7 @@ export default function FormLogin() {
 
                     {/* PASSWORD FIELD */}
                     <div className="block relative">
-                      <label className="block text-gray-600 cursor-text leading-[140%] font-normal mb-2 !outline-none">Contraseña</label>
+                      <label className="text-left block cursor-text leading-[140%] font-normal mb-2">Contraseña</label>
                       <input
                         type="password"
                         name="contraseña"
