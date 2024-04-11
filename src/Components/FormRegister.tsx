@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+//import { Link, useNavigate } from 'react-router-dom';
 import { MySwal } from '../classes/MySwal';
 import { USERCONTEXT } from '../App';
+import { url } from './Url';
 
 // INTERFACES
 interface RegisterProps {
@@ -27,7 +28,7 @@ export default function FormRegister() {
     })
     const [regEx] = React.useState<RegExp>(new RegExp(/^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$/))
     const userContext = React.useContext<any>(USERCONTEXT);
-    const navigation = useNavigate();
+    //const navigation = useNavigate();
 
     // FUNCTIONS
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,10 +83,19 @@ export default function FormRegister() {
         // Codificación en Base64 de tus credenciales
         const base64Credentials = btoa(`${username}:${password}`);
 
-        await fetch(`http://geraldsilv25-001-site1.ktempurl.com/Users`, {
+        const user = { 
+          firstName: registerData?.nombre, 
+          lastName: registerData?.apellido,
+          registrationNumber: registerData?.matricula,
+          passWord: registerData?.contraseña
+        }
+
+        console.log(user)
+
+        await fetch(url+`/Users`, {
           method: "POST",
           headers: {
-            'Authorization': `Basic ${base64Credentials}`,
+           // 'Authorization': `Basic ${base64Credentials}`,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ 
@@ -93,17 +103,17 @@ export default function FormRegister() {
             lastName: registerData?.apellido,
             registrationNumber: registerData?.matricula,
             passWord: registerData?.contraseña
-          }),
-          mode: 'no-cors',
+          }),        
+        
         })
         .then((res) => res.json())
         .then((data) => {
-          console.log(registerData)
+          //console.log(data)
           if(data?.hasError === true)
           {
             MySwal.errorMessage("Algo ha ocurrido con los datos suministrados... por favor... intentelo de nuevo.")
             return;
-          }
+          } 
 
           userContext?.returnSetUser(data)
           MySwal.successMessage(`Bienvenido ${data?.firstName}`);

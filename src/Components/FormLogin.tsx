@@ -3,6 +3,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { MySwal } from '../classes/MySwal';
 import { USERCONTEXT } from '../App';
+import { url } from './Url';
 
 // INTERFACES
 interface RegisterProps {
@@ -57,21 +58,26 @@ export default function FormLogin() {
         
         // Codificación en Base64 de tus credenciales
         const base64Credentials = btoa(`${username}:${password}`);
+        
+        const user ={ 
+          userName: loginData?.usuario, 
+          passWord: loginData?.contraseña
+        }
 
-        await fetch(`http://geraldsilv25-001-site1.ktempurl.com/Users/Login`, {
+        console.log(base64Credentials)
+
+        fetch(url+`/Users/Login`, {
           method: "POST",
-          body: JSON.stringify({ 
-            userName: loginData?.usuario, 
-            passWord: loginData?.contraseña
-          }),
-          mode: 'cors',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `${base64Credentials}`,
-            }
+          headers: {
+       //     'Authorization': `Basic ${base64Credentials}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(user),
+         
         })
         .then((res) => res.json())
         .then((data) => {
+          console.log(data)
           if(data?.hasError === true)
           {
             MySwal.errorMessage("Credenciales Incorrectas")
@@ -84,7 +90,10 @@ export default function FormLogin() {
             replace: true,
           })
         })
-        .catch((err) => console.error(err))
+        .catch((err) => {
+          console.log(err)
+          MySwal.errorMessage("Algo salio mal con el servidor")
+        })
 
     }
 

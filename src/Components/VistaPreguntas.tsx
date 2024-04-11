@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import Cronometro from './cronometro';
-import { useNavigate, useBlocker } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { USERCONTEXT } from '../App';
-import detectChangeUrl from 'detect-url-change';
+//import detectChangeUrl from 'detect-url-change';
 import { MySwal } from '../classes/MySwal';
+import { url } from './Url';
 
 
 interface Pregunta {
@@ -29,6 +30,12 @@ function VistaPreguntas() {
   const navigation = useNavigate();
   const userContext = React.useContext<any>(USERCONTEXT)
 
+  //const username = '11171726';
+  //const password = '60-dayfreetrial';
+
+  // Codificación en Base64 de tus credenciales
+ // const base64Credentials = btoa(`${username}:${password}`);
+
   const enviarPuntuacion = async () => {
     const resultado = {
         userId: userId,
@@ -39,13 +46,15 @@ function VistaPreguntas() {
 
       console.log(resultado)
     try {
-      const response = await fetch('http://localhost:5091/ChallengeResult', {
-        method: 'POST',
+
+      const response = await  fetch(url+`/ChallengeResult`, {
+        method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          'Content-Type': 'application/json',
+          //          'Authorization': `${base64Credentials}`,
         },
-        body: JSON.stringify(resultado)
-      });
+        body: JSON.stringify(resultado), 
+      })
   
       if (!response.ok) {
         throw new Error('Error al enviar la puntuación');
@@ -77,18 +86,25 @@ function VistaPreguntas() {
         setNivel(nivel);
         setIdUser(JSON.parse(user).id);
 
-      try {
-        const resp = await fetch('http://localhost:5091/Question/GetQuestionsByLevel' + nivel);
-        if (!resp.ok) {
-          throw new Error('Error al obtener las preguntas');
+        try {
+          const resp = await fetch(`${url}/Question/GetQuestionsByLevel${nivel}`);
+        
+          // Si la solicitud no es exitosa
+          if (!resp.ok) {
+            throw new Error('Error al obtener las preguntas');
+          }
+        
+          // Si la respuesta es exitosa, obtenemos los datos
+          const preguntas = await resp.json();
+        
+          // Actualizamos el estado con las preguntas y el estado de la corrida
+          setPreguntas(preguntas);
+          setCorriendo(true);
+        } catch (error) {
+          console.error('Error al obtener las preguntas:', error);
+          // Manejo de errores, si es necesario
         }
-        const preguntas = await resp.json();
-        setPreguntas(preguntas);
-        setCorriendo(true);
-      } catch (error) {
-        console.error('Error al obtener las preguntas:', error);
-        // Manejo de errores, si es necesario
-      }
+        
     };
 
     fetchData();
