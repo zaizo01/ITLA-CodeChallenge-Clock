@@ -13,7 +13,7 @@ function Cronometro({ iniciar }: Prop) {
   const [segundos, setSegundos] = useState(0);
   const [minutos, setMinutos] = useState(10);
   const [horas, setHoras] = useState(0);
-  const [corriendo, setCorriendo] = useState(iniciar);
+  const [corriendo] = useState(iniciar);
   const userContext = React.useContext<any>(USERCONTEXT)
 
   useEffect(() => {

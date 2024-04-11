@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import './App.css'
 import './styles/Form.css'
@@ -5,14 +6,14 @@ import './styles/VistaPreguntas.css'
 import FormRegister from './Components/FormRegister'
 import VistaPreguntas  from './Components/VistaPreguntas'
 import Home from './Components/Home'
-import { Routes, Route, Navigate, useBeforeUnload, useNavigate, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom'
+import { Routes, Route, Navigate,  useNavigate } from 'react-router-dom'
 import FormLogin from './Components/FormLogin'
 import ChoosingCategory from './Components/ChoosingCategory'
 import React from 'react'
 import PositionTable from './Components/PositionTable'
-import Navbar from './Components/Navbar';
+//import Navbar from './Components/Navbar';
 import FinalMessageForm from './Components/FinalMessageComp'
-import { MySwal } from './classes/MySwal'
+//import { MySwal } from './classes/MySwal'
 
 export const USERCONTEXT = React.createContext({});
 
@@ -79,13 +80,13 @@ React.useEffect(() => {
 
   if(window.location.pathname.includes("/question"))
     {
-      window.onbeforeunload = (val: any) => {
+      window.onbeforeunload = () => {
         return "Si sale, su progreso no se guardará... ¿Desea continuar?";
       }
     }
     else
     {
-      window.onbeforeunload = (val: any) => {
+      window.onbeforeunload = () => {
         return null;
       }
     }

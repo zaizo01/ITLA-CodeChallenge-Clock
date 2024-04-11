@@ -77,12 +77,13 @@ export default function FormRegister() {
         }
 
         // Tus credenciales
+        /*
         const username = '11171726';
         const password = '60-dayfreetrial';
 
         // Codificación en Base64 de tus credenciales
         const base64Credentials = btoa(`${username}:${password}`);
-
+*/
         const user = { 
           firstName: registerData?.nombre, 
           lastName: registerData?.apellido,

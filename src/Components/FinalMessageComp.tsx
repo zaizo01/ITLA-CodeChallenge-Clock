@@ -1,13 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import {  useLocation } from 'react-router-dom';
 import { USERCONTEXT } from '../App';
 
-// INTERFACES
-interface TableProps
-{
-    nombre: string,
-    puntuacion: number
-}
+
 
 export default function FinalMessageForm() {
 

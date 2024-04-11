@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import easy from '../CategoriasIcon/easy.svg'
 import medium from '../CategoriasIcon/medium.svg'
 import high from '../CategoriasIcon/high.svg'
@@ -12,7 +12,6 @@ import { USERCONTEXT } from '../App';
 export default function ChoosingCategory() {
 
     // VARS
-    const navigation = useNavigate();
     const userContext = React.useContext<any>(USERCONTEXT);
 
     // FUNCTIONS
