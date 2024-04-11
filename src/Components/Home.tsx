@@ -1,16 +1,15 @@
 import { useNavigate } from "react-router-dom";
-
+import { USERCONTEXT } from "../App";
+import React from "react"
 
 export default function Home() {
 
     // VARS, STATES
-    const navigation = useNavigate();
+    const userContext = React.useContext<any>(USERCONTEXT);
 
     // FUNCTION
     const handleOnNavigation = () => {
-        navigation("/register", {
-            replace: true
-        })
+        userContext?.viewNavigate("/register");
     }
 
     return (

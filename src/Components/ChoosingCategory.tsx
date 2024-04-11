@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import easy from '../CategoriasIcon/easy.svg'
 import medium from '../CategoriasIcon/medium.svg'
 import high from '../CategoriasIcon/high.svg'
+import { USERCONTEXT } from '../App';
 
 
 // INTERFACES
@@ -12,24 +13,12 @@ export default function ChoosingCategory() {
 
     // VARS
     const navigation = useNavigate();
-    /*
-    const [categories] = React.useState([
-        "NOVATO",
-        "Se Programar",
-        "Programador Dedicado"
-    ])
-    */
+    const userContext = React.useContext<any>(USERCONTEXT);
 
     // FUNCTIONS
     const handleOnSelectCategory = (id: number) => {
-        console.log(id)
-
         localStorage.setItem("categoria", id.toString())
-
-        navigation("/question/" + id, {
-            replace: true,
-        })
-
+        userContext?.viewNavigate(`/question/${id}`)
     }
 
 

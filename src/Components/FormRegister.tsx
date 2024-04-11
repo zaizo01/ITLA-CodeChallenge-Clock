@@ -75,18 +75,26 @@ export default function FormRegister() {
           return;
         }
 
-        await fetch(`http://localhost:5091/Users`, {
+        // Tus credenciales
+        const username = '11171726';
+        const password = '60-dayfreetrial';
+
+        // Codificación en Base64 de tus credenciales
+        const base64Credentials = btoa(`${username}:${password}`);
+
+        await fetch(`http://geraldsilv25-001-site1.ktempurl.com/Users`, {
           method: "POST",
+          headers: {
+            'Authorization': `Basic ${base64Credentials}`,
+            'Content-Type': 'application/json',
+          },
           body: JSON.stringify({ 
             firstName: registerData?.nombre, 
             lastName: registerData?.apellido,
             registrationNumber: registerData?.matricula,
             passWord: registerData?.contraseña
           }),
-          mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json',
-            }
+          mode: 'no-cors',
         })
         .then((res) => res.json())
         .then((data) => {
@@ -99,9 +107,7 @@ export default function FormRegister() {
 
           userContext?.returnSetUser(data)
           MySwal.successMessage(`Bienvenido ${data?.firstName}`);
-          navigation("/login/choose-category", {
-            replace: true,
-          })
+          userContext?.viewNavigate("/login/choose-category")
         })
         .catch((err) => console.error(err))
 
@@ -231,7 +237,7 @@ export default function FormRegister() {
 
           {/* GO TO LOGIN LINK */}
           <section className="text-sm text-center mt-[1.6rem]">
-            ¿Ya has participado? <Link to="/login" className="text-sm text-[#7747ff]">Inicia Sesion</Link>
+            ¿Ya has participado? <button onClick={() => userContext?.viewNavigate("/login")} className="text-sm text-[#7747ff]">Inicia Sesion</button>
           </section>
         
         </div>

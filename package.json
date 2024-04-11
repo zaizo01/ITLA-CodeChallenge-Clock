@@ -10,9 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "detect-url-change": "^1.0.2",
     "million": "^3.0.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router": "^6.22.3",
     "react-router-dom": "^6.22.3",
     "sweetalert2": "^11.10.7"
   },

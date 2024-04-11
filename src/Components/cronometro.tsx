@@ -1,23 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
+import { USERCONTEXT } from '../App';
 
 interface Prop{
     iniciar:boolean;
 }
 
-function Cronometro({iniciar}:Prop) {
+function Cronometro({ iniciar }: Prop) {
+  const navigation = useNavigate();
   const [segundos, setSegundos] = useState(0);
-  const [minutos, setMinutos] = useState(0);
+  const [minutos, setMinutos] = useState(10);
   const [horas, setHoras] = useState(0);
   const [corriendo, setCorriendo] = useState(iniciar);
+  const userContext = React.useContext<any>(USERCONTEXT)
 
   useEffect(() => {
-    let intervalo;
+    let intervalo: any;
 
     if (corriendo) {
       intervalo = setInterval(() => {
-        setSegundos(segundos => segundos + 1);
+        setSegundos(segundos => segundos - 1);
       }, 1000);
     } else {
       clearInterval(intervalo);
@@ -27,13 +31,31 @@ function Cronometro({iniciar}:Prop) {
   }, [corriendo]);
 
   useEffect(() => {
-    if (segundos === 60) {
-      setSegundos(0);
-      setMinutos(minutos => minutos + 1);
+    if (segundos === 0) {
+      setTimeout(() => {
+        setSegundos(59);
+        setMinutos(minutos => minutos - 1);
+        userContext?.returnTime()
+      }, 1000)
     }
     if (minutos === 60) {
       setMinutos(0);
-      setHoras(horas => horas + 1);
+      setHoras(horas => horas - 1);
+    }
+
+    if(segundos === 0 && minutos === 0)
+    {
+      
+      userContext?.returnTime()
+      setTimeout(() => {
+        navigation("/message", {
+          replace: true,
+          state: {
+            isCompleted: false
+          }
+        })
+      }, 1000)
+      
     }
   }, [segundos, minutos, horas]);
 
@@ -56,12 +78,12 @@ function Cronometro({iniciar}:Prop) {
 
   return (
     <div className="flex justify-center items-center ">
-      <div className="text-center">
+      <div className="text-center flex flex-row justify-between items-center">
         <h1 className="text-2xl text-black font-bold mb-4">
-          Cronómetro
+          Tiempo restante:
         </h1>
-        <div className="text-2xl text-black mb-4">
-          {minutos < 10 ? `0${minutos}` : minutos} : {segundos < 10 ? `0${segundos}` : segundos}
+        <div className="text-2xl text-black mb-4 font-bold">
+          {minutos > 10 ? `1${minutos}` : minutos}:{segundos < 10 ? `0${segundos}` : segundos}
         </div> 
 {/*
  {horas < 10 ? `0${horas}` : horas} :

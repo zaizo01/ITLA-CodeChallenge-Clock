@@ -10,14 +10,32 @@ interface TableProps
 export default function PositionTable() {
 
     // VARS
-    const [usuarios] = React.useState<TableProps[]>([
-        { nombre: "Carlos Jiménez", puntuacion: 100 },
-        { nombre: "Ednal Hillhouse", puntuacion: 90 },
-        { nombre: "Onell Dishmey", puntuacion: 80 },
-        { nombre: "Ramy Campusano", puntuacion: 70 },
-        { nombre: "Felipe Cedeño", puntuacion: 60 }
-    ]);
+    const [usuarios] = React.useState<any>(null);
 
+    // USE EFFECTS
+    React.useEffect(() => {
+
+        const fetchingData = async () => {
+            
+            const categoria = localStorage.getItem("categoria")
+            
+            try {
+                const resp = await fetch(`http://localhost:5091/ChallengeResult/${1}`);
+                console.log(resp)
+
+                if (!resp.ok) {
+                  throw new Error('Error al obtener los usuarios');
+                }
+                
+              } catch (error) {
+                console.error('Error al obtener las preguntas:', error);
+                // Manejo de errores, si es necesario
+              }
+        }
+
+        fetchingData();
+
+    }, [])
   
     return (
         <section className="flex flex-row justify-center items-center  min-h-[91vh] h-auto">

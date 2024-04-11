@@ -65,6 +65,11 @@
   gap: 6px;
 }
 
+.form
+{
+  width: 100%;
+}
+
 .form label {
   position: relative;
 }

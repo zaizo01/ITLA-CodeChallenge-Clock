@@ -5,12 +5,14 @@ import './styles/VistaPreguntas.css'
 import FormRegister from './Components/FormRegister'
 import VistaPreguntas  from './Components/VistaPreguntas'
 import Home from './Components/Home'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useBeforeUnload, useNavigate, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom'
 import FormLogin from './Components/FormLogin'
 import ChoosingCategory from './Components/ChoosingCategory'
 import React from 'react'
 import PositionTable from './Components/PositionTable'
 import Navbar from './Components/Navbar';
+import FinalMessageForm from './Components/FinalMessageComp'
+import { MySwal } from './classes/MySwal'
 
 export const USERCONTEXT = React.createContext({});
 
@@ -26,20 +28,43 @@ function App() {
       val = localStorage.getItem("user");
     }
 
-  return JSON.parse(val); 
-})
-
-// FUNCTIONS
-const returnSetUser = (value: any) => {
-  return setUser((val: any) => {
-
-    const user = JSON.stringify(value);
-    localStorage.setItem("user", user);
-    val = user;
-    return JSON.parse(val);
-
+    return JSON.parse(val); 
   })
-}
+
+  const [time, setTime] = React.useState<number>(0);
+  const navigate = useNavigate();
+
+
+  // FUNCTIONS
+  const returnSetUser = (value: any) => {
+    return setUser((val: any) => {
+
+      const user = JSON.stringify(value);
+      localStorage.setItem("user", user);
+      val = user;
+      return JSON.parse(val);
+
+    })
+  }
+
+  const returnTime = () => {
+    
+    return setTime((value: number) => {
+      value += 1;
+      return value;
+    })
+  }
+
+  const viewNavigate = (newRoute: any) => {
+    // Navigate to the new route
+    if (!document.startViewTransition) {
+      return navigate(newRoute);
+    } else {
+      return document.startViewTransition(() => {
+        navigate(newRoute);
+      });
+    }
+  };
 
 // USE STATES
 React.useEffect(() => {
@@ -50,11 +75,26 @@ React.useEffect(() => {
 
 }, [])
 
+React.useEffect(() => {
+
+  if(window.location.pathname.includes("/question"))
+    {
+      window.onbeforeunload = (val: any) => {
+        return "Si sale, su progreso no se guardará... ¿Desea continuar?";
+      }
+    }
+    else
+    {
+      window.onbeforeunload = (val: any) => {
+        return null;
+      }
+    }
+})
+
 return (
   <USERCONTEXT.Provider value={{
-    user, returnSetUser
-  }} >
-
+    user, returnSetUser, time, returnTime, viewNavigate
+  }}>
     <Routes>
 
       <Route path="/" element={<Home />} />
@@ -67,7 +107,7 @@ return (
           :
           <Navigate to="/login/choose-category" replace={true} />
 
-        } />
+      } />
 
 
       <Route path="/login" element={
@@ -89,14 +129,14 @@ return (
         }
         />
 
-<Route path="/question/:id" element={
+      <Route path="/question/:id" element={
         user?.registrationNumber === null || user === null
           ?
           <Navigate to="/login" replace={true} />
           :
           <VistaPreguntas />
         }
-        />
+      />
 
 
       <Route path="/register/choose-category" element={
@@ -105,6 +145,15 @@ return (
           <Navigate to="/register" replace={true} />
           :
           <ChoosingCategory />}
+      />
+
+      <Route path="/message" element={
+        user?.registrationNumber === null || user === null
+          ?
+          <Navigate to="/login" replace={true} />
+          :
+          <FinalMessageForm />
+        }
       />
 
       <Route path="/ranking" element={
@@ -117,9 +166,12 @@ return (
       />
 
 
-    </Routes>
+      </Routes>
   </USERCONTEXT.Provider>
 )
 }
 
+
+
 export default App;  
+

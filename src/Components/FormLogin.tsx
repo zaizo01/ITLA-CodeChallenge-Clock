@@ -50,7 +50,15 @@ export default function FormLogin() {
         }
  
         e?.preventDefault();
-        await fetch(`http://localhost:5091/Users/Login`, {
+
+        // Tus credenciales
+        const username = '11171726';
+        const password = '60-dayfreetrial';
+        
+        // Codificación en Base64 de tus credenciales
+        const base64Credentials = btoa(`${username}:${password}`);
+
+        await fetch(`http://geraldsilv25-001-site1.ktempurl.com/Users/Login`, {
           method: "POST",
           body: JSON.stringify({ 
             userName: loginData?.usuario, 
@@ -58,7 +66,8 @@ export default function FormLogin() {
           }),
           mode: 'cors',
             headers: {
-                'Content-Type': 'application/json',
+              'Content-Type': 'application/json',
+              'Authorization': `${base64Credentials}`,
             }
         })
         .then((res) => res.json())
@@ -151,9 +160,9 @@ export default function FormLogin() {
                     </div>
 
                     {/* This link redirects user to register */}
-                    <Link to="/register" className="mt-5 border border-2 border-[#7747ff] text-[#7747ff] w-full m-auto px-6 py-2 rounded text-sm font-normal">
+                    <button onClick={() => userContext?.viewNavigate("/register")} className="mt-5 border border-2 border-[#7747ff] text-[#7747ff] w-full m-auto px-6 py-2 rounded text-sm font-normal">
                         Registrate
-                    </Link>
+                    </button>
 
                   </form>
 

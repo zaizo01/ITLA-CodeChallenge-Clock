@@ -70,4 +70,34 @@ export class MySwal
             title: `${message}`
           });
     }
+
+    /* 
+     * METHOD:
+     * Static method of the class to warning the user about lose all data
+    */
+    static async warningNormalMessage(message: string): Promise<boolean>
+    {
+      var boolAns = false;
+
+      await Swal.fire(
+          {
+              title: "¡Espera!",
+              text: message,
+              icon: "warning",
+              confirmButtonColor: "rgb(49, 111, 237)",
+              confirmButtonText: "¡Sí!",
+              showCancelButton: true,
+              cancelButtonText: "No",
+              allowOutsideClick: false
+          }
+      )
+      .then((ans) => {
+          if(ans.isConfirmed)
+          {
+              boolAns = true;
+          }
+      })
+
+      return boolAns
+    }
 }

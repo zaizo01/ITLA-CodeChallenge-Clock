@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import Cronometro from './cronometro';
+import { useNavigate, useBlocker } from "react-router-dom";
+import { USERCONTEXT } from '../App';
+import detectChangeUrl from 'detect-url-change';
+import { MySwal } from '../classes/MySwal';
+
 
 interface Pregunta {
   description: string;
@@ -18,15 +23,18 @@ function VistaPreguntas() {
   const [respuestasCorrectas, setRespuestasCorrectas] = useState<number[]>([]);
   const [respuestasIncorrectas, setRespuestasIncorrectas] = useState<number[]>([]);
   const [corriendo, setCorriendo] = useState(false);
+  
   const [nivel, setNivel] = useState("");
   const [userId,setIdUser] = useState("");
+  const navigation = useNavigate();
+  const userContext = React.useContext<any>(USERCONTEXT)
 
   const enviarPuntuacion = async () => {
     const resultado = {
         userId: userId,
         level: nivel,
         correctAnswersCount: respuestasCorrectas.length,
-        minutiesElapsed: 5 // Cambiar a la variable correspondiente si es necesario
+        minutiesElapsed: userContext?.time // Cambiar a la variable correspondiente si es necesario
       }
 
       console.log(resultado)
@@ -49,7 +57,6 @@ function VistaPreguntas() {
       console.error('Error al enviar la puntuación:', error);
     }
   };
-  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,7 +76,6 @@ function VistaPreguntas() {
         
         setNivel(nivel);
         setIdUser(JSON.parse(user).id);
-
 
       try {
         const resp = await fetch('http://localhost:5091/Question/GetQuestionsByLevel' + nivel);
@@ -96,10 +102,10 @@ function VistaPreguntas() {
     const preguntaActual = preguntas[indicePregunta];
     if (respuestaSeleccionada === preguntaActual.correctAnswer) {
       setRespuestasCorrectas([...respuestasCorrectas, indicePregunta]);
-      alert('¡Respuesta correcta!');
+      MySwal.successMessage('¡Respuesta correcta!');
     } else {
       setRespuestasIncorrectas([...respuestasIncorrectas, indicePregunta]);
-      alert('Respuesta incorrecta. Inténtalo de nuevo.');
+      MySwal.errorMessage('Respuesta incorrecta.');
     }
 
     if (indicePregunta < preguntas.length - 1) {
@@ -112,7 +118,12 @@ function VistaPreguntas() {
         
         // Redirigir al usuario a otra vista cuando termina todas las preguntas
         // Aquí puedes establecer la lógica de redireccionamiento
-        //window.location.href = '/ranking';
+        navigation("/message", {
+          replace: true,
+          state: {
+            isCompleted: true
+          }
+        })
       
     }
   };
@@ -131,33 +142,33 @@ function VistaPreguntas() {
           <div className="flex flex-col border-black border-4 flex-grow w-full rounded-lg overflow-hidden" style={{ backgroundColor: '#1e293b' }}>
             <div className="flex flex-col w-full flex-grow p-4 overflow-auto">
               <div className="overflow-y-auto" style={{ maxHeight: "760px" }}>
-                <h1 className="text-black text-4xl">Problema</h1>
+                <h1 className="text-black text-4xl text-white font-bold">Pregunta: </h1>
                 <div className="p-5">
                   <div className="p-5 border-4 border-red-200 border-dashed rounded-lg dark:border-gray-700">
-                    <h1 className="text-black text-3xl">{preguntaActual.description}</h1>
+                    <h1 className="text-black text-3xl text-white">{preguntaActual.description}</h1>
                   </div>
                 </div>
                 <div className="p-5">
                   <div className="p-5 border-4 border-red-200 border-dashed rounded-lg dark:border-gray-700">
-                    <h1 className="text-black text-3xl">Respuestas</h1>
-                    <div className="text-left">
-                      <form className="form mt-5">
-                        <label htmlFor="respuesta1" className="text-green-500 ">
+                    {/* <h1 className="text-black text-3xl">Respuestas</h1> */}
+                    <div className="text-left !w-full">
+                      <form className="w-full form mt-5">
+                        <label htmlFor="respuesta1">
                           <input id="respuesta1" type="radio" name="respuesta" value={preguntaActual.correctAnswer} checked={respuestaSeleccionada === preguntaActual.correctAnswer} onChange={handleRespuestaSeleccionada} />
                           {preguntaActual.correctAnswer}
                         </label>
                         <br />
-                        <label htmlFor="respuesta2" className="text-red-500 ">
+                        <label htmlFor="respuesta2">
                           <input id="respuesta2" type="radio" name="respuesta" value={preguntaActual.incorrectAnswser1} checked={respuestaSeleccionada === preguntaActual.incorrectAnswser1} onChange={handleRespuestaSeleccionada} />
                           {preguntaActual.incorrectAnswser1}
                         </label>
                         <br />
-                        <label htmlFor="respuesta3" className="text-red-500 ">
+                        <label htmlFor="respuesta3">
                           <input id="respuesta3" type="radio" name="respuesta" value={preguntaActual.incorrectAnswser2} checked={respuestaSeleccionada === preguntaActual.incorrectAnswser2} onChange={handleRespuestaSeleccionada} />
                           {preguntaActual.incorrectAnswser2}
                         </label>
                         <br />
-                        <label htmlFor="respuesta4" className="text-red-500 ">
+                        <label htmlFor="respuesta4">
                           <input id="respuesta4" type="radio" name="respuesta" value={preguntaActual.incorrectAnswser3} checked={respuestaSeleccionada === preguntaActual.incorrectAnswser3} onChange={handleRespuestaSeleccionada} />
                           {preguntaActual.incorrectAnswser3}
                         </label>
@@ -172,7 +183,7 @@ function VistaPreguntas() {
                 className="ml-3 bg-blue-500 text-white px-6 py-2 rounded-md font-bold hover:bg-blue-700"
                 onClick={verificarRespuesta}
               >
-                Verificar respuesta
+                Seleccionar respuesta
                 <i className="ml-2 fa-regular fa-hand-point-right"></i>
               </button>
             </div>
