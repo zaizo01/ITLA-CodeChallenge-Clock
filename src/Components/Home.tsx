@@ -18,8 +18,8 @@ export default function Home() {
         <div className="w-full min-h-[91.4vh] flex flex-col items-center justify-center">
             
             {/* Image Section */}
-            <section className="w-4/6 my-5 rounded-2xl overflow-hidden shadow-4xl border-2 border-[#F87FFE]">
-                <img src="./home.png" className="w-full"  alt="Any" />
+            <section className="w-4/6 my-5 rounded-2xl overflow-hidden shadow-4xl">
+                <img src="./home.png" className="w-full rounded-4xl" alt="Any" />
             </section>
 
             {/* Button Section */}

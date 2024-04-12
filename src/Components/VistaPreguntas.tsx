@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import Cronometro from './cronometro';
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { USERCONTEXT } from '../App';
 //import detectChangeUrl from 'detect-url-change';
 import { MySwal } from '../classes/MySwal';
 import { url } from './Url';
-
 
 interface Pregunta {
   description: string;
@@ -17,36 +16,38 @@ interface Pregunta {
   correctAnswer: string;
 }
 
-function VistaPreguntas() {
+function VistaPreguntas() 
+{
   const [preguntas, setPreguntas] = useState<Pregunta[]>([]);
   const [indicePregunta, setIndicePregunta] = useState(0);
   const [respuestaSeleccionada, setRespuestaSeleccionada] = useState("");
   const [respuestasCorrectas, setRespuestasCorrectas] = useState<number[]>([]);
   const [respuestasIncorrectas, setRespuestasIncorrectas] = useState<number[]>([]);
   const [corriendo, setCorriendo] = useState(false);
-  
   const [nivel, setNivel] = useState("");
   const [userId,setIdUser] = useState("");
-  const navigation = useNavigate();
+  // const navigation = useNavigate();
   const userContext = React.useContext<any>(USERCONTEXT)
 
   //const username = '11171726';
   //const password = '60-dayfreetrial';
 
   // Codificación en Base64 de tus credenciales
- // const base64Credentials = btoa(`${username}:${password}`);
-
+  // const base64Credentials = btoa(`${username}:${password}`);
   const enviarPuntuacion = async () => {
+
     const resultado = {
         userId: userId,
         level: nivel,
-        correctAnswersCount: respuestasCorrectas.length,
+        correctAnswersCount: respuestasCorrectas.length === 0 ? 0 : respuestasCorrectas.length + 1,
         minutiesElapsed: userContext?.time // Cambiar a la variable correspondiente si es necesario
-      }
+    }
 
-      console.log(resultado)
-    try {
+    
+    userContext?.returnTime(0)
 
+    try 
+    {
       const response = await  fetch(url+`/ChallengeResult`, {
         method: "POST",
         headers: {
@@ -115,34 +116,35 @@ function VistaPreguntas() {
   };
 
   const verificarRespuesta = () => {
+    
     const preguntaActual = preguntas[indicePregunta];
-    if (respuestaSeleccionada === preguntaActual.correctAnswer) {
-      setRespuestasCorrectas([...respuestasCorrectas, indicePregunta]);
-      MySwal.successMessage('¡Respuesta correcta!');
-    } else {
-      setRespuestasIncorrectas([...respuestasIncorrectas, indicePregunta]);
-      MySwal.errorMessage('Respuesta incorrecta.');
+
+    if (respuestaSeleccionada === preguntaActual.correctAnswer) 
+    {
+        setRespuestasCorrectas([...respuestasCorrectas, indicePregunta]); // Agrega la respuesta correcta al estado
+        MySwal.successMessage('¡Respuesta correcta!');
+    } 
+    else 
+    {
+        setRespuestasIncorrectas([...respuestasIncorrectas, indicePregunta]); // Agrega la respuesta incorrecta al estado
+        MySwal.errorMessage('Respuesta incorrecta.');
     }
 
-    if (indicePregunta < preguntas.length - 1) {
-      setIndicePregunta(indicePregunta + 1);
-      setRespuestaSeleccionada(""); // Limpiar la respuesta seleccionada para la siguiente pregunta
-    } else {
-        
-        //aqui envia se envia al backend cuando termine de contestar las preguntas
+    if (indicePregunta < preguntas.length - 1) 
+    {
+        setIndicePregunta(indicePregunta + 1);
+        setRespuestaSeleccionada(""); // Limpiar la respuesta seleccionada para la siguiente pregunta
+    } 
+    else 
+    {
+        // Envía la puntuación al backend cuando se completan todas las preguntas
         enviarPuntuacion();
         
-        // Redirigir al usuario a otra vista cuando termina todas las preguntas
+        // Redirigir al usuario a otra vista cuando se completan todas las preguntas
         // Aquí puedes establecer la lógica de redireccionamiento
-        navigation("/message", {
-          replace: true,
-          state: {
-            isCompleted: true
-          }
-        })
-      
+        userContext?.viewNavigate("/message", { isCompleted: true })
     }
-  };
+};
 
   if (preguntas.length === 0) {
     return <div>Cargando preguntas...</div>;
@@ -197,7 +199,7 @@ function VistaPreguntas() {
             <div className="bg-gray-300 border-black border-4 p-4 flex items-center">
               <button
                 className="ml-3 bg-blue-500 text-white px-6 py-2 rounded-md font-bold hover:bg-blue-700"
-                onClick={verificarRespuesta}
+                onClick={() => verificarRespuesta()}
               >
                 Seleccionar respuesta
                 <i className="ml-2 fa-regular fa-hand-point-right"></i>

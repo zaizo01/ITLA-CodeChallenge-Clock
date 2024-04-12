@@ -10,8 +10,8 @@ interface Prop{
 
 function Cronometro({ iniciar }: Prop) {
   const navigation = useNavigate();
-  const [segundos, setSegundos] = useState(0);
-  const [minutos, setMinutos] = useState(10);
+  const [segundos, setSegundos] = useState(59);
+  const [minutos, setMinutos] = useState(9);
   const [horas, setHoras] = useState(0);
   const [corriendo] = useState(iniciar);
   const userContext = React.useContext<any>(USERCONTEXT)
@@ -38,6 +38,7 @@ function Cronometro({ iniciar }: Prop) {
         userContext?.returnTime()
       }, 1000)
     }
+
     if (minutos === 60) {
       setMinutos(0);
       setHoras(horas => horas - 1);

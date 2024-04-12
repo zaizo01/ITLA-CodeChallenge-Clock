@@ -48,21 +48,39 @@ function App() {
     })
   }
 
-  const returnTime = () => {
+  const returnTime = (num: number = 1) => {
     
+    if(num === 0)
+    {
+      return setTime(0);
+    }
+
     return setTime((value: number) => {
       value += 1;
       return value;
     })
   }
 
-  const viewNavigate = (newRoute: any) => {
+  const viewNavigate = (newRoute: any, state: any = null) => {
     // Navigate to the new route
     if (!document.startViewTransition) {
       return navigate(newRoute);
     } else {
       return document.startViewTransition(() => {
-        navigate(newRoute);
+        
+        if(state === null)
+        {
+          navigate(newRoute);
+        }
+        else
+        {
+          navigate(newRoute, 
+            {
+              state: state
+            }
+          )
+        }
+
       });
     }
   };
