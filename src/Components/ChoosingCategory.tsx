@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React from 'react';
 import easy from '../CategoriasIcon/easy.svg'
 import medium from '../CategoriasIcon/medium.svg'
@@ -17,7 +18,9 @@ export default function ChoosingCategory() {
     // FUNCTIONS
     const handleOnSelectCategory = (id: number) => {
         localStorage.setItem("categoria", id.toString())
-        userContext?.viewNavigate(`/question/${id}`)
+        alert("seleccionaste ")
+
+        //userContext?.viewNavigate(`/question/${id}`)
     }
 
 
@@ -59,7 +62,7 @@ export default function ChoosingCategory() {
                     >
                         <div className="w-full flex flex-row justify-center items-center ">
                             <img className="w-20" src={easy} alt="." />
-                            <h3 className="text-lg text-green-500 group-hover/anim:text-[#F87FFE] transition-all duration-300">BEBE</h3>
+                            <h3 className="text-lg text-green-500 group-hover/anim:text-[#F87FFE] transition-all duration-300">Facil</h3>
                         </div>
                     </button>
 
@@ -79,7 +82,7 @@ export default function ChoosingCategory() {
                     >
                         <div className="w-full flex flex-row justify-center items-center ">
                             <img className="w-20" src={high} alt="." />
-                            <h3 className="text-lg text-red-500 group-hover/anim:text-[#F87FFE] transition-all duration-300">NIvel Dios!!!</h3>
+                            <h3 className="text-lg text-red-500 group-hover/anim:text-[#F87FFE] transition-all duration-300">Medio-alto</h3>
                         </div>
                     </button>
 
