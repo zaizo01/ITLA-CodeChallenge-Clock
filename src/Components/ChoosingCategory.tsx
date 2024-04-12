@@ -5,6 +5,7 @@ import easy from '../CategoriasIcon/easy.svg'
 import medium from '../CategoriasIcon/medium.svg'
 import high from '../CategoriasIcon/high.svg'
 import linea from "../../public/linea.png";
+import grafico from "../../public/grafico.png";
 
 import { USERCONTEXT } from '../App';
 
@@ -30,7 +31,7 @@ export default function ChoosingCategory() {
                 <section className="!w-2/6 text-center relative">
 
                     <div className="w-full">
-                        <img src="../../public/grafico.png" alt='.' />
+                        <img src={grafico} alt='.' />
                     </div>
 
                     {/* Title */}

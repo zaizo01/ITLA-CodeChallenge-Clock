@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { url } from './Url';
+import estrella from "../../public/estrella.png";
 
 // INTERFACES
 interface TableProps
@@ -93,7 +94,7 @@ export default function PositionTable() {
                                                     <th scope="row" className="px-6 py-4 font-medium !text-white whitespace-nowrap relative">
                                                         <div className="w-12 h-12 -left-5 relative flex flex-col justify-center items-center">
                                                             <section className="absolute !z-50 top-3 !text-white text-lg">{index+1}</section>
-                                                            <img src="../../public/estrella.png" className="w-12 h-12 absolute -z-1" alt='.'/>
+                                                            <img src={estrella} className="w-12 h-12 absolute -z-1" alt='.'/>
                                                         </div>
                                                     </th>
                                                 :
