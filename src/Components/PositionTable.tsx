@@ -91,9 +91,9 @@ export default function PositionTable() {
                                                 index + 1 <= 3
                                                 ? 
                                                     <th scope="row" className="px-6 py-4 font-medium !text-white whitespace-nowrap relative">
-                                                        <div className="w-12 h-12 relative flex flex-col justify-center items-center">
+                                                        <div className="w-12 h-12 -left-5 relative flex flex-col justify-center items-center">
                                                             <section className="absolute !z-50 top-3 !text-white text-lg">{index+1}</section>
-                                                            <img src="/public/estrella.png" className="w-12 h-12 absolute -z-1" alt='.'/>
+                                                            <img src="../../public/estrella.png" className="w-12 h-12 absolute -z-1" alt='.'/>
                                                         </div>
                                                     </th>
                                                 :

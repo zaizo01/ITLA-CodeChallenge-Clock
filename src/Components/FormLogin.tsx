@@ -100,7 +100,7 @@ export default function FormLogin() {
 
     return (
         <div 
-          className="flex flex-row justify-center items-center flex-wrap min-h-[91vh] w-screen"
+          className="flex flex-row justify-center items-center flex-wrap min-h-[91vh]"
            
         >
               <section className="max-w-md md:mt-0 mt-12 w-full md:flex-shrink-0 md:mr-4 mb-4 md:mb-0">
