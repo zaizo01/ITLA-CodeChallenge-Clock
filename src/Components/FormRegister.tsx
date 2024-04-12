@@ -131,7 +131,7 @@ export default function FormRegister() {
       <div className="max-w-md w-full  md:flex-shrink-0 md:mr-4 mb-4 md:mb-0">
         <div className="max-w-md relative flex flex-col p-2 rounded-md text-black bg-gradient-to-r from-[#F87FFE] to-[#A890E1] mt-5">
 
-          <div className="w-full bg-white p-4 rounded">
+          <div className="w-full bg-white p-3 rounded">
 
             {/* ICON */}
             <section className="absolute items-center -top-[45px] border-8 border-white left-[35%] w-32 h-32 rounded-full bg-white overflow-hidden">
