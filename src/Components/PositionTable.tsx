@@ -36,6 +36,10 @@ export default function PositionTable() {
  
 
                 setUsuarios(data)
+                localStorage.removeItem("user")
+                localStorage.removeItem("categoria")
+        
+        
               } catch (error) {
                 console.error('Error al obtener las preguntas:', error);
                 // Manejo de errores, si es necesario
@@ -47,17 +51,22 @@ export default function PositionTable() {
     }, [])
 
 
-    const finalizar = () =>{
-        localStorage.removeItem("user")
-        localStorage.removeItem("categoria")
-        
-        userContext?.viewNavigate("/")
+    const finalizar = (instagram: boolean) =>{
+        if(instagram)
+        {
+            userContext?.viewNavigate("/")
 
-        // Abrir nuevo tab
-        var win = window.open("https://www.instagram.com/itlard/", '_blank');
-            
-        // Cambiar el foco al nuevo tab (punto opcional)
-        win?.focus();
+            // Abrir nuevo tab
+            var win = window.open("https://www.instagram.com/itlard/", '_blank');
+                
+            // Cambiar el foco al nuevo tab (punto opcional)
+            win?.focus();
+        }
+        else
+        {
+           
+            userContext?.viewNavigate("/") 
+        }
     }
   
     return (
@@ -75,8 +84,13 @@ export default function PositionTable() {
                         Tabla de posicionamiento:
                     </h1>
 
-                    <button onClick={finalizar} className="border border-2 !border-white !text-white px-6 py-2 rounded text-sm font-normal">
+                    <button onClick={() => finalizar(false)} className="border border-2 !border-white !text-white px-6 py-2 rounded text-sm font-normal">
                         Finalizar
+                    </button>
+
+                    
+                    <button onClick={() => finalizar(true)} className="border border-2 !border-white !text-white px-6 py-2 rounded text-sm font-normal">
+                        Ir a instagram
                     </button>
 
                 </section>
