@@ -28,7 +28,7 @@ export default function ChoosingCategory() {
                 <section className="!w-2/3 text-center relative">
 
                     <div>
-                        <img src="/public/grafico.png" />
+                        <img src="/public/grafico.png" alt='.' />
                     </div>
 
                     {/* Title */}
