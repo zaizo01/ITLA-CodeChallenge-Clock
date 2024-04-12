@@ -2,6 +2,7 @@
 import React from 'react';
 import { url } from './Url';
 import estrella from "../../public/estrella.png";
+import { USERCONTEXT } from '../App';
 
 // INTERFACES
 interface TableProps
@@ -15,6 +16,7 @@ export default function PositionTable() {
 
     // VARS
     const [usuarios,setUsuarios] = React.useState<any[]>([]); 
+    const userContext = React.useContext<any>(USERCONTEXT)
 
     // USE EFFECTS
     React.useEffect(() => {
@@ -49,7 +51,13 @@ export default function PositionTable() {
         localStorage.removeItem("user")
         localStorage.removeItem("categoria")
         
-        window.location.href = 'https://www.instagram.com/itlard/';
+        userContext?.viewNavigate("/")
+
+        // Abrir nuevo tab
+        var win = window.open("https://www.instagram.com/itlard/", '_blank');
+            
+        // Cambiar el foco al nuevo tab (punto opcional)
+        win?.focus();
     }
   
     return (

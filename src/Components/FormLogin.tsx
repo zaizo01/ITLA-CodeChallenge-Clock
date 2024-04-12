@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import {  useNavigate } from 'react-router-dom';
 import { MySwal } from '../classes/MySwal';
 import { USERCONTEXT } from '../App';
 import { url } from './Url';
@@ -18,7 +17,6 @@ export default function FormLogin() {
         usuario: "",
         contraseña: "",
     })
-    const navigation = useNavigate();
     const userContext = React.useContext<any>(USERCONTEXT);
     const [regEx] = React.useState<RegExp>(new RegExp(/^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$/))
     
@@ -87,9 +85,7 @@ export default function FormLogin() {
 
           userContext?.returnSetUser(data)
           MySwal.successMessage(`Bienvenido ${data?.firstName}`);
-          navigation("/register/choose-category", {
-            replace: true,
-          })
+          userContext.viewNavigate("/login/choose-category")
         })
         .catch((err) => {
           console.log(err)
